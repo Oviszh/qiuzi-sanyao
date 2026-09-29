@@ -1,0 +1,49 @@
+name: build-pdf
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "text/**"
+      - "tools/**"
+      - ".github/workflows/build-pdf.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CJK fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-cjk
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build PDF
+        run: |
+          python tools/build_pdf.py --keep-html
+
+      - name: Sync artifacts into docs/
+        run: |
+          cp pdf/求子三要.pdf docs/求子三要.pdf
+          cp pdf/求子三要.html docs/求子三要.html
+
+      - name: Commit rebuilt artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pdf docs
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: 重建 PDF [skip ci]"
+            git push
+          fi
