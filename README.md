@@ -23,7 +23,7 @@
 一册 33 页的 A4 排版小书，含封面、目录、白话对照、原文、求子疏、实践清单，可直接打印。
 
 - **GitHub Pages（推荐，含在线阅读）**：https://oviszh.github.io/qiuzi-sanyao/
-- **最新版直接下载**：<https://github.com/Oviszh/qiuzi-sanyao/releases/latest/download/%E6%B1%82%E5%AD%90%E4%B8%89%E8%A6%81.pdf>
+- **最新版直接下载**：<https://github.com/Oviszh/qiuzi-sanyao/releases/latest/download/qiuzi-sanyao.pdf>
 - **仓库内文件**：[pdf/求子三要.pdf](pdf/求子三要.pdf) ｜ [HTML 版](docs/求子三要.html)
 
 任何人可自由下载、翻印、转载、改编，**无需征得同意，不得收费**（成本价助印除外）。
