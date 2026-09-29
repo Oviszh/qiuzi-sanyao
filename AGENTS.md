@@ -33,7 +33,6 @@ text/07-实践提要.md              编者整理的操作清单
 text/08-附录-校对存疑与流通.md    校对存疑表 ← 校对工作入口
 tools/build_pdf.py               md → html → pdf（仅标准库 + Chrome）
 docs/index.html                  GitHub Pages 落地页
-.github/workflows/build-pdf.yml  CI 自动重建 PDF
 ```
 
 ## 4. 构建与验证
@@ -44,7 +43,7 @@ python tools/build_pdf.py --keep-html
 ```
 
 - 无第三方 Python 依赖；需要本机 Chrome 或 Edge（脚本会自动找）。
-- Windows / macOS / Linux 均可运行；CI 在 ubuntu-latest 上运行。
+- Windows / macOS / Linux 均可运行。
 - 改了 `text/` 或 `tools/` 之后必须跑一次构建，确认无异常。
 - 不要把构建产物之外的临时文件提交进仓库。
 
@@ -75,6 +74,7 @@ python tools/build_pdf.py --keep-html
 
 | # | 任务 | 状态 | 说明 |
 |---|---|---|---|
+| C0 | 补上 GitHub Actions 自动重建 PDF（需维护者先 `gh auth refresh -s workflow` 授权） | todo | 脚本已验证可在 ubuntu + fonts-noto-cjk 上跑通 |
 | C1 | `build_pdf.py` 支持 `--lang` 多语言构建 | todo | 译文放 `text/en/` 等 |
 | C2 | PDF 加入书签（outline） | todo | CDP 无直接 API，可后处理或改用 pypdf |
 | C3 | 注音版 / 大字版排版变体 | todo | 建议做成独立 `variants/` |

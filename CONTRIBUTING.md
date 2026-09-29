@@ -34,9 +34,9 @@ git push
 
 PR 描述请回答三个问题：**改了什么、为什么改、依据是什么。**
 
-## CI
+## PDF 由谁构建
 
-推送后 `.github/workflows/build-pdf.yml` 会自动重新生成 PDF。若你的 PR 只改了 `text/`，无需手动提交 PDF；合并后由 CI 统一重建。
+目前 PDF 由维护者本地构建后提交（`python tools/build_pdf.py`）。**只改 `text/` 的 PR 不必附 PDF**，维护者合并后会统一重建。若你想帮忙把 CI 自动构建补上，请开 Issue 认领（AGENTS.md 任务 C0）。
 
 ## 一些约定
 

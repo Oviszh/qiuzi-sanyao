@@ -65,7 +65,7 @@ python tools/build_pdf.py            # 输出 pdf/求子三要.pdf（含页码�
 python tools/build_pdf.py --no-pagenum
 ```
 
-只依赖 Python 标准库 + 本机 Chrome / Edge（自动查找），推送后 GitHub Actions 也会自动重建（见 `.github/workflows/build-pdf.yml`）。
+只依赖 Python 标准库 + 本机 Chrome / Edge（自动查找），Windows / macOS / Linux 均可运行。
 
 ## 📁 目录结构
 
@@ -77,7 +77,7 @@ python tools/build_pdf.py --no-pagenum
 ├── source/                最初的整理稿（.docx 底本）
 ├── AGENTS.md              给 AI agent 的协作规范与任务清单
 ├── CONTRIBUTING.md        人类贡献指南
-└── .github/               Issue / PR 模板、CI
+└── .github/               Issue / PR 模板
 ```
 
 ## ⚖️ 版权
