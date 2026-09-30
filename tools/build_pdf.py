@@ -388,6 +388,57 @@ td.ok { text-align: center; color: #7a5c33; }
 }
 .closing .big { font-size: 13pt; color: #6b4f2a; letter-spacing: 2pt; margin-bottom: 8mm; }
 .closing .small { font-size: 9pt; line-height: 2.0; }
+
+/* ---------- 屏幕阅读：左侧固定目录 ----------
+   打印（printToPDF）时侧栏不显示，PDF 版式不受影响。 */
+#sidenav { display: none; }
+
+@media screen {
+  html { background: #f3ede2; }
+  body {
+    padding: 0 46px 80px 268px;
+    max-width: 1040px; margin: 0 auto; background: #fff;
+    font-size: 12.4pt; line-height: 2.0;
+  }
+  .cover { height: auto; min-height: 205mm; border: 0; border-bottom: 1px solid #e4d8c2; }
+  .toc { display: none; }              /* 侧栏已有目录，避免重复 */
+  .closing { margin-top: 20mm; padding-bottom: 30px; }
+  h1.chapter, h2.sec { scroll-margin-top: 12px; }
+  #sidenav { display: block; }
+}
+
+#sidenav {
+  position: fixed; left: 0; top: 0; bottom: 0; width: 268px;
+  overflow-y: auto; overscroll-behavior: contain;
+  background: #f3ede2; border-right: 1px solid #e0d3bc;
+  padding: 20px 0 40px;
+  font-family: "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+}
+#sidenav .brand {
+  padding: 0 22px 12px; font-size: 17px; font-weight: 700; letter-spacing: 2px;
+  color: #6b4f2a; border-bottom: 1px solid #e0d3bc;
+}
+#sidenav .brand small {
+  display: block; margin-top: 5px; font-size: 11.5px; font-weight: 400;
+  letter-spacing: 0; color: #8a7d6d;
+}
+#sidenav ul { list-style: none; margin: 12px 0 0; padding: 0 10px 0 12px; }
+#sidenav li.l1 { margin: 9px 0 2px; font-size: 13.5px; font-weight: 600; }
+#sidenav li.l2 { margin: 0; font-size: 12.5px; font-weight: 400; padding-left: 12px; }
+#sidenav a {
+  display: block; padding: 5px 10px; border-radius: 6px; border: 0;
+  color: #6f655b; text-decoration: none; line-height: 1.5;
+}
+#sidenav a:hover { background: #eae1d0; }
+#sidenav a.active { background: #e5d8bf; color: #6b4f2a; font-weight: 600; }
+#sidenav .foot { padding: 16px 22px 0; font-size: 12px; color: #8a7d6d; }
+#sidenav .foot a { display: inline; padding: 0; color: #8a6d45; border: 0; }
+
+@media screen and (max-width: 900px) {
+  body { padding: 0 22px 60px; }
+  #sidenav { display: none; }
+  .toc { display: block; }
+}
 """
 
 
@@ -402,8 +453,45 @@ def render_html(parts, toc):
         toc_html.append('<li class="l%d"><a href="#%s">%s</a></li>' % (level, anchor, text))
     toc_html.append("</ul></div>")
 
+    nav_items = ['<li class="l1"><a href="#cover-top" data-t="cover-top">封面</a></li>']
+    for level, anchor, text in toc:
+        nav_items.append('<li class="l%d"><a href="#%s" data-t="%s">%s</a></li>'
+                         % (level, anchor, anchor, text))
+    sidenav = """
+<nav id="sidenav">
+  <div class="brand">求子三要<small>印光大师 开示 ｜ 白话编译与整理：开源共创</small></div>
+  <ul>%s</ul>
+  <div class="foot"><a href="%s">⬇ 下载 PDF</a> · <a href="index.html">返回首页</a></div>
+</nav>
+""" % ("\n".join(nav_items), "求子三要.pdf")
+
+    scrollspy = """
+<script>
+(function () {
+  var nav = document.getElementById('sidenav');
+  var links = [].slice.call(nav.querySelectorAll('a[data-t]'));
+  var heads = links.map(function (a) { return document.getElementById(a.getAttribute('data-t')); });
+  function update() {
+    var cur = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i] && heads[i].getBoundingClientRect().top <= 100) { cur = i; }
+    }
+    for (var j = 0; j < links.length; j++) {
+      if (j === cur) { links[j].className = 'active'; } else { links[j].className = ''; }
+    }
+    var act = links[cur], r = act.getBoundingClientRect(), nr = nav.getBoundingClientRect();
+    if (r.top < nr.top + 10) { nav.scrollTop += r.top - nr.top - 60; }
+    else if (r.bottom > nr.bottom - 10) { nav.scrollTop += r.bottom - nr.bottom + 60; }
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+"""
+
     cover = """
-<div class="cover">
+<div class="cover" id="cover-top">
   <div class="frame">
     <div class="lotus">❁</div>
     <h1>{title}</h1>
@@ -431,8 +519,8 @@ def render_html(parts, toc):
     return """<!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8" />
 <title>{title}</title><style>{css}</style></head>
-<body>{cover}{toc}{body}{closing}</body></html>""".format(
-        title=BOOK_TITLE, css=CSS, cover=cover,
+<body>{nav}{cover}{toc}{body}{closing}{spy}</body></html>""".format(
+        title=BOOK_TITLE, css=CSS, nav=sidenav, cover=cover, spy=scrollspy,
         toc="".join(toc_html), body="\n".join(body_parts), closing=closing)
 
 

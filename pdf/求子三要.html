@@ -130,9 +130,116 @@ td.ok { text-align: center; color: #7a5c33; }
 }
 .closing .big { font-size: 13pt; color: #6b4f2a; letter-spacing: 2pt; margin-bottom: 8mm; }
 .closing .small { font-size: 9pt; line-height: 2.0; }
+
+/* ---------- 屏幕阅读：左侧固定目录 ----------
+   打印（printToPDF）时侧栏不显示，PDF 版式不受影响。 */
+#sidenav { display: none; }
+
+@media screen {
+  html { background: #f3ede2; }
+  body {
+    padding: 0 46px 80px 268px;
+    max-width: 1040px; margin: 0 auto; background: #fff;
+    font-size: 12.4pt; line-height: 2.0;
+  }
+  .cover { height: auto; min-height: 205mm; border: 0; border-bottom: 1px solid #e4d8c2; }
+  .toc { display: none; }              /* 侧栏已有目录，避免重复 */
+  .closing { margin-top: 20mm; padding-bottom: 30px; }
+  h1.chapter, h2.sec { scroll-margin-top: 12px; }
+  #sidenav { display: block; }
+}
+
+#sidenav {
+  position: fixed; left: 0; top: 0; bottom: 0; width: 268px;
+  overflow-y: auto; overscroll-behavior: contain;
+  background: #f3ede2; border-right: 1px solid #e0d3bc;
+  padding: 20px 0 40px;
+  font-family: "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+}
+#sidenav .brand {
+  padding: 0 22px 12px; font-size: 17px; font-weight: 700; letter-spacing: 2px;
+  color: #6b4f2a; border-bottom: 1px solid #e0d3bc;
+}
+#sidenav .brand small {
+  display: block; margin-top: 5px; font-size: 11.5px; font-weight: 400;
+  letter-spacing: 0; color: #8a7d6d;
+}
+#sidenav ul { list-style: none; margin: 12px 0 0; padding: 0 10px 0 12px; }
+#sidenav li.l1 { margin: 9px 0 2px; font-size: 13.5px; font-weight: 600; }
+#sidenav li.l2 { margin: 0; font-size: 12.5px; font-weight: 400; padding-left: 12px; }
+#sidenav a {
+  display: block; padding: 5px 10px; border-radius: 6px; border: 0;
+  color: #6f655b; text-decoration: none; line-height: 1.5;
+}
+#sidenav a:hover { background: #eae1d0; }
+#sidenav a.active { background: #e5d8bf; color: #6b4f2a; font-weight: 600; }
+#sidenav .foot { padding: 16px 22px 0; font-size: 12px; color: #8a7d6d; }
+#sidenav .foot a { display: inline; padding: 0; color: #8a6d45; border: 0; }
+
+@media screen and (max-width: 900px) {
+  body { padding: 0 22px 60px; }
+  #sidenav { display: none; }
+  .toc { display: block; }
+}
 </style></head>
 <body>
-<div class="cover">
+<nav id="sidenav">
+  <div class="brand">求子三要<small>印光大师 开示 ｜ 白话编译与整理：开源共创</small></div>
+  <ul><li class="l1"><a href="#cover-top" data-t="cover-top">封面</a></li>
+<li class="l1"><a href="#00-h1" data-t="00-h1">缘起</a></li>
+<li class="l2"><a href="#00-h2" data-t="00-h2">关于本手册的整理</a></li>
+<li class="l2"><a href="#00-h3" data-t="00-h3">版权</a></li>
+<li class="l1"><a href="#01-h1" data-t="01-h1">求子三要（白话）</a></li>
+<li class="l2"><a href="#01-h2" data-t="01-h2">总纲</a></li>
+<li class="l2"><a href="#01-h3" data-t="01-h3">第一要：节欲保身，以培先天</a></li>
+<li class="l2"><a href="#01-h4" data-t="01-h4">第二要：敦伦积德，以立福基</a></li>
+<li class="l2"><a href="#01-h5" data-t="01-h5">第三要：胎幼善教，以免随流</a></li>
+<li class="l2"><a href="#01-h7" data-t="01-h7">附记禁忌，免致祸害</a></li>
+<li class="l1"><a href="#02-h1" data-t="02-h1">求子三要（原文）</a></li>
+<li class="l2"><a href="#02-h2" data-t="02-h2">第一、保身节欲，以培先天者</a></li>
+<li class="l2"><a href="#02-h3" data-t="02-h3">第二、敦伦积德，以立福基者</a></li>
+<li class="l2"><a href="#02-h4" data-t="02-h4">第三、胎幼善教，以免随流者</a></li>
+<li class="l2"><a href="#02-h5" data-t="02-h5">◎◎附记禁忌，免致祸害</a></li>
+<li class="l1"><a href="#03-h1" data-t="03-h1">礼念观世音菩萨求子疏</a></li>
+<li class="l2"><a href="#03-h2" data-t="03-h2">经证：为什么求观音菩萨</a></li>
+<li class="l2"><a href="#03-h3" data-t="03-h3">疏文</a></li>
+<li class="l2"><a href="#03-h4" data-t="03-h4">怎么用这封疏</a></li>
+<li class="l2"><a href="#03-h5" data-t="03-h5">大师的叮咛</a></li>
+<li class="l1"><a href="#04-h1" data-t="04-h1">保身广嗣要义（白话）</a></li>
+<li class="l2"><a href="#04-h2" data-t="04-h2">一、婚嫁不可过早</a></li>
+<li class="l2"><a href="#04-h3" data-t="04-h3">二、经期与受孕时机</a></li>
+<li class="l2"><a href="#04-h4" data-t="04-h4">三、房事禁忌的日子与处境</a></li>
+<li class="l2"><a href="#04-h5" data-t="04-h5">四、小产（暗产）多由不知节制</a></li>
+<li class="l2"><a href="#04-h6" data-t="04-h6">五、孙真人：人身不是钢铁</a></li>
+<li class="l2"><a href="#04-h8" data-t="04-h8">六、莲池大师的比喻：暗中置毒</a></li>
+<li class="l1"><a href="#05-h1" data-t="05-h1">求子开示辑录</a></li>
+<li class="l1"><a href="#05-h2" data-t="05-h2">一、求子之道</a></li>
+<li class="l2"><a href="#05-h3" data-t="05-h3">孕妇不可生气（极重要）</a></li>
+<li class="l2"><a href="#05-h4" data-t="05-h4">培德与阴功</a></li>
+<li class="l2"><a href="#05-h5" data-t="05-h5">节欲为何难说</a></li>
+<li class="l2"><a href="#05-h6" data-t="05-h6">出家人为何说房事</a></li>
+<li class="l2"><a href="#05-h7" data-t="05-h7">湖南刘居士的事</a></li>
+<li class="l2"><a href="#05-h8" data-t="05-h8">阴德与子孙</a></li>
+<li class="l1"><a href="#05-h9" data-t="05-h9">二、复周善昌居士书二</a></li>
+<li class="l1"><a href="#05-h10" data-t="05-h10">三、保胎</a></li>
+<li class="l1"><a href="#06-h1" data-t="06-h1">求子事证</a></li>
+<li class="l1"><a href="#06-h2" data-t="06-h2">一、一诺素斋子便生</a></li>
+<li class="l2"><a href="#06-h3" data-t="06-h3">附：顺利生产的经过</a></li>
+<li class="l1"><a href="#06-h4" data-t="06-h4">二、一对日本年轻夫妇的喜悦</a></li>
+<li class="l1"><a href="#06-h5" data-t="06-h5">三、一位父亲的自述</a></li>
+<li class="l1"><a href="#07-h1" data-t="07-h1">实践提要</a></li>
+<li class="l2"><a href="#07-h2" data-t="07-h2">一、求子三要速查</a></li>
+<li class="l2"><a href="#07-h3" data-t="07-h3">二、时间线（依《求子之道》《保身广嗣要义》整理）</a></li>
+<li class="l2"><a href="#07-h9" data-t="07-h9">三、每日功课（可自行增减）</a></li>
+<li class="l2"><a href="#07-h10" data-t="07-h10">四、最容易出问题的三件事</a></li>
+<li class="l2"><a href="#07-h11" data-t="07-h11">五、一句总持</a></li>
+<li class="l1"><a href="#08-h1" data-t="08-h1">附录</a></li>
+<li class="l2"><a href="#08-h2" data-t="08-h2">流通说明</a></li>
+<li class="l2"><a href="#08-h3" data-t="08-h3">致谢</a></li></ul>
+  <div class="foot"><a href="求子三要.pdf">⬇ 下载 PDF</a> · <a href="index.html">返回首页</a></div>
+</nav>
+
+<div class="cover" id="cover-top">
   <div class="frame">
     <div class="lotus">❁</div>
     <h1>求子三要</h1>
@@ -143,7 +250,7 @@ td.ok { text-align: center; color: #7a5c33; }
     <div class="note">此版不设版权，欢迎随意转载翻印</div>
   </div>
 </div>
-<div class="toc"><h2 class="toc-title">目 录</h2><ul><li class="l1"><a href="#00-h1">缘起</a></li><li class="l2"><a href="#00-h2">怎么用本手册</a></li><li class="l2"><a href="#00-h3">关于本手册的整理</a></li><li class="l2"><a href="#00-h4">版权</a></li><li class="l1"><a href="#01-h1">求子三要（白话）</a></li><li class="l2"><a href="#01-h2">总纲</a></li><li class="l2"><a href="#01-h3">第一要：节欲保身，以培先天</a></li><li class="l2"><a href="#01-h4">第二要：敦伦积德，以立福基</a></li><li class="l2"><a href="#01-h5">第三要：胎幼善教，以免随流</a></li><li class="l2"><a href="#01-h7">附记禁忌，免致祸害</a></li><li class="l1"><a href="#02-h1">求子三要（原文）</a></li><li class="l2"><a href="#02-h2">第一、保身节欲，以培先天者</a></li><li class="l2"><a href="#02-h3">第二、敦伦积德，以立福基者</a></li><li class="l2"><a href="#02-h4">第三、胎幼善教，以免随流者</a></li><li class="l2"><a href="#02-h5">◎◎附记禁忌，免致祸害</a></li><li class="l1"><a href="#03-h1">礼念观世音菩萨求子疏</a></li><li class="l2"><a href="#03-h2">经证：为什么求观音菩萨</a></li><li class="l2"><a href="#03-h3">疏文</a></li><li class="l2"><a href="#03-h4">怎么用这封疏</a></li><li class="l2"><a href="#03-h5">大师的叮咛</a></li><li class="l1"><a href="#04-h1">保身广嗣要义（白话）</a></li><li class="l2"><a href="#04-h2">一、婚嫁不可过早</a></li><li class="l2"><a href="#04-h3">二、经期与受孕时机</a></li><li class="l2"><a href="#04-h4">三、房事禁忌的日子与处境</a></li><li class="l2"><a href="#04-h5">四、小产（暗产）多由不知节制</a></li><li class="l2"><a href="#04-h6">五、孙真人：人身不是钢铁</a></li><li class="l2"><a href="#04-h8">六、莲池大师的比喻：暗中置毒</a></li><li class="l1"><a href="#05-h1">求子开示辑录</a></li><li class="l1"><a href="#05-h2">一、求子之道</a></li><li class="l2"><a href="#05-h3">孕妇不可生气（极重要）</a></li><li class="l2"><a href="#05-h4">培德与阴功</a></li><li class="l2"><a href="#05-h5">节欲为何难说</a></li><li class="l2"><a href="#05-h6">出家人为何说房事</a></li><li class="l2"><a href="#05-h7">湖南刘居士的事</a></li><li class="l2"><a href="#05-h8">阴德与子孙</a></li><li class="l1"><a href="#05-h9">二、复周善昌居士书二</a></li><li class="l1"><a href="#05-h10">三、保胎</a></li><li class="l1"><a href="#06-h1">求子事证</a></li><li class="l1"><a href="#06-h2">一、一诺素斋子便生</a></li><li class="l2"><a href="#06-h3">附：顺利生产的经过</a></li><li class="l1"><a href="#06-h4">二、一对日本年轻夫妇的喜悦</a></li><li class="l1"><a href="#06-h5">三、一位父亲的自述</a></li><li class="l1"><a href="#07-h1">实践提要</a></li><li class="l2"><a href="#07-h2">一、求子三要速查</a></li><li class="l2"><a href="#07-h3">二、时间线（依《求子之道》《保身广嗣要义》整理）</a></li><li class="l2"><a href="#07-h9">三、每日功课（可自行增减）</a></li><li class="l2"><a href="#07-h10">四、最容易出问题的三件事</a></li><li class="l2"><a href="#07-h11">五、一句总持</a></li><li class="l1"><a href="#08-h1">附录</a></li><li class="l2"><a href="#08-h2">流通说明</a></li><li class="l2"><a href="#08-h3">致谢</a></li></ul></div><section class="bookstart"><h1 id="00-h1" class="chapter">缘起</h1>
+<div class="toc"><h2 class="toc-title">目 录</h2><ul><li class="l1"><a href="#00-h1">缘起</a></li><li class="l2"><a href="#00-h2">关于本手册的整理</a></li><li class="l2"><a href="#00-h3">版权</a></li><li class="l1"><a href="#01-h1">求子三要（白话）</a></li><li class="l2"><a href="#01-h2">总纲</a></li><li class="l2"><a href="#01-h3">第一要：节欲保身，以培先天</a></li><li class="l2"><a href="#01-h4">第二要：敦伦积德，以立福基</a></li><li class="l2"><a href="#01-h5">第三要：胎幼善教，以免随流</a></li><li class="l2"><a href="#01-h7">附记禁忌，免致祸害</a></li><li class="l1"><a href="#02-h1">求子三要（原文）</a></li><li class="l2"><a href="#02-h2">第一、保身节欲，以培先天者</a></li><li class="l2"><a href="#02-h3">第二、敦伦积德，以立福基者</a></li><li class="l2"><a href="#02-h4">第三、胎幼善教，以免随流者</a></li><li class="l2"><a href="#02-h5">◎◎附记禁忌，免致祸害</a></li><li class="l1"><a href="#03-h1">礼念观世音菩萨求子疏</a></li><li class="l2"><a href="#03-h2">经证：为什么求观音菩萨</a></li><li class="l2"><a href="#03-h3">疏文</a></li><li class="l2"><a href="#03-h4">怎么用这封疏</a></li><li class="l2"><a href="#03-h5">大师的叮咛</a></li><li class="l1"><a href="#04-h1">保身广嗣要义（白话）</a></li><li class="l2"><a href="#04-h2">一、婚嫁不可过早</a></li><li class="l2"><a href="#04-h3">二、经期与受孕时机</a></li><li class="l2"><a href="#04-h4">三、房事禁忌的日子与处境</a></li><li class="l2"><a href="#04-h5">四、小产（暗产）多由不知节制</a></li><li class="l2"><a href="#04-h6">五、孙真人：人身不是钢铁</a></li><li class="l2"><a href="#04-h8">六、莲池大师的比喻：暗中置毒</a></li><li class="l1"><a href="#05-h1">求子开示辑录</a></li><li class="l1"><a href="#05-h2">一、求子之道</a></li><li class="l2"><a href="#05-h3">孕妇不可生气（极重要）</a></li><li class="l2"><a href="#05-h4">培德与阴功</a></li><li class="l2"><a href="#05-h5">节欲为何难说</a></li><li class="l2"><a href="#05-h6">出家人为何说房事</a></li><li class="l2"><a href="#05-h7">湖南刘居士的事</a></li><li class="l2"><a href="#05-h8">阴德与子孙</a></li><li class="l1"><a href="#05-h9">二、复周善昌居士书二</a></li><li class="l1"><a href="#05-h10">三、保胎</a></li><li class="l1"><a href="#06-h1">求子事证</a></li><li class="l1"><a href="#06-h2">一、一诺素斋子便生</a></li><li class="l2"><a href="#06-h3">附：顺利生产的经过</a></li><li class="l1"><a href="#06-h4">二、一对日本年轻夫妇的喜悦</a></li><li class="l1"><a href="#06-h5">三、一位父亲的自述</a></li><li class="l1"><a href="#07-h1">实践提要</a></li><li class="l2"><a href="#07-h2">一、求子三要速查</a></li><li class="l2"><a href="#07-h3">二、时间线（依《求子之道》《保身广嗣要义》整理）</a></li><li class="l2"><a href="#07-h9">三、每日功课（可自行增减）</a></li><li class="l2"><a href="#07-h10">四、最容易出问题的三件事</a></li><li class="l2"><a href="#07-h11">五、一句总持</a></li><li class="l1"><a href="#08-h1">附录</a></li><li class="l2"><a href="#08-h2">流通说明</a></li><li class="l2"><a href="#08-h3">致谢</a></li></ul></div><section class="bookstart"><h1 id="00-h1" class="chapter">缘起</h1>
 <blockquote><p>弘一大师评印光大师：“三百年来，一人而已。”<br />梁启超题词赞曰：“印光大师文字三昧，真今日群盲之眼也！”<br />虚云大师评：“如大师之真实行持，脚踏实地，禅讲兼通，而归宗於净土，昌明大法，密护诸宗，常以诸恶莫作，众善奉行，敦伦尽分，闲邪存诚，深信因果，老实念佛等语教人，不标新，不玄奇，所谓道在平常日用间，其一生之功行事迹，及本身成就，昭昭在人耳目。”<br />太虚大师直言：“亲其教、览其文者，莫不默然折服”，肯定其莲宗十三祖地位无可争议。<br />第十一届中国佛教协会会长传印法师直言：“三藏十二部可不读，《印光文钞》不可不读！”并称赞其著作“字字见谛，堪为末世舟航”。</p></blockquote>
 <p>浙江永嘉的张德田居士，悯念当今世道人心，愈趋愈下，于某年秋来函祈求印光大师写《礼念观音求子疏》，并讲一下保身积德、善教儿女等的方法，希望所生的孩子，都能成为贤明善良的人，只有这样才能逐渐实现天下太平。大师多次以年老作为推辞，他却屡次恳切请求，情难再却，只好作《礼念观音求子简疏》，与《求子三要》，以塞其责。</p>
 <blockquote><p>“世人求子，不知先断欲，保养身体强壮。日日常行夫妇之事，不死即是大幸。如此纵生子，或不长寿，或孱弱无能为，皆由不知在根本上培植故也。”</p></blockquote>
@@ -155,11 +262,9 @@ td.ok { text-align: center; color: #7a5c33; }
 <tr><td class="k">第三</td><td class="k">胎幼善教，以免随流</td></tr>
 </tbody></table>
 <p>三条之外，再以至诚心礼拜、称念观世音菩萨。<strong>前三条是人要尽的本分，念菩萨是求加持</strong>——大师说得极清楚：若三条不做，纵然菩萨满愿，人也是辜负了菩萨的深恩。</p>
-<h2 id="00-h2" class="sec">怎么用本手册</h2>
-<ul><li><strong>只想快速上手</strong>：读《实践提要》（第七章），照着做即可，几分钟读完。</li><li><strong>想明白道理</strong>：读《求子三要》白话（第一章）与《保身广嗣要义》（第四章）。</li><li><strong>想照着文辞恭敬求愿</strong>：用《礼念观世音菩萨求子疏》（第三章），焚香填写，在佛前或菩萨像前至诚读诵。</li><li><strong>想深入原典</strong>：读《求子三要》原文（第二章）与《求子开示辑录》（第五章）。</li><li><strong>信心不足时</strong>：读《求子事证》（第六章），看别人的真实经历。</li></ul>
-<h2 id="00-h3" class="sec">关于本手册的整理</h2>
-<ul><li>大师原文（第二章、第三章、第五章）<strong>一字不改</strong>，保留原貌，仅施标点与分段。</li><li>白话编译部分（第一章、第四章）为流通而作，以信、达为主，不敢自作主张增删法义。</li><li>遇有文句存疑之处，列入附录《校对存疑》，<strong>不擅自改字</strong>，留待高明核定。</li><li>编者才疏学浅，错漏之处恳请指正。详见 <a href="../CONTRIBUTING.md">CONTRIBUTING.md</a>。</li></ul>
-<h2 id="00-h4" class="sec">版权</h2>
+<h2 id="00-h2" class="sec">关于本手册的整理</h2>
+<ul><li>大师原文（第二章、第三章、第五章）<strong>一字不改</strong>，保留原貌，仅施标点与分段。</li><li>白话编译部分（第一章、第四章）为流通而作，以信、达为主，不敢自作主张增删法义。</li><li>编者才疏学浅，错漏之处恳请指正。详见 <a href="../CONTRIBUTING.md">CONTRIBUTING.md</a>。</li></ul>
+<h2 id="00-h3" class="sec">版权</h2>
 <p>印光大师（1862—1940）之《文钞》早已入公有领域。本册的整理、白话编译、排版与提要部分，<strong>不设版权，放弃一切著作财产权，任何人可自由转载、翻印、改编、流通，无需征得同意，亦无需署名</strong>。</p>
 <p>若发现错谬，请回来告诉我们，感恩。</p>
 <blockquote><p>愿求子者，咸取法焉，则家国幸甚。</p></blockquote></section>
@@ -470,4 +575,27 @@ td.ok { text-align: center; color: #7a5c33; }
     如发现错漏，请至项目仓库指正，让这一册越来越准确。
   </div>
 </div>
+
+<script>
+(function () {
+  var nav = document.getElementById('sidenav');
+  var links = [].slice.call(nav.querySelectorAll('a[data-t]'));
+  var heads = links.map(function (a) { return document.getElementById(a.getAttribute('data-t')); });
+  function update() {
+    var cur = 0;
+    for (var i = 0; i < heads.length; i++) {
+      if (heads[i] && heads[i].getBoundingClientRect().top <= 100) { cur = i; }
+    }
+    for (var j = 0; j < links.length; j++) {
+      if (j === cur) { links[j].className = 'active'; } else { links[j].className = ''; }
+    }
+    var act = links[cur], r = act.getBoundingClientRect(), nr = nav.getBoundingClientRect();
+    if (r.top < nr.top + 10) { nav.scrollTop += r.top - nr.top - 60; }
+    else if (r.bottom > nr.bottom - 10) { nav.scrollTop += r.bottom - nr.bottom + 60; }
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
 </body></html>
