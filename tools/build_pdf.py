@@ -36,7 +36,7 @@ DEFAULT_OUT = os.path.join(ROOT, "pdf", "求子三要.pdf")
 BOOK_TITLE = "求子三要"
 BOOK_SUBTITLE = "附：礼念观世音菩萨求子疏 · 保身广嗣要义 · 求子开示辑录"
 BOOK_AUTHOR = "印光大师　开示"
-BOOK_EDITOR = "白话编译与整理：Oviszh　及各位共创者"
+BOOK_EDITOR = "白话编译与整理： 开源共创"
 BOOK_NOTE = "此版不设版权，欢迎随意转载翻印"
 
 
@@ -55,6 +55,8 @@ def inline(s):
 
     s = re.sub(r"`([^`]+)`", stash, s)
 
+    s = re.sub(r"&lt;br\s*/?&gt;", "<br />", s)
+
     # 链接
     s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', s)
     # 加粗
@@ -64,6 +66,36 @@ def inline(s):
 
     s = re.sub(r"\x00(\d+)\x00", lambda m: "<code>%s</code>" % codes[int(m.group(1))], s)
     return s
+
+
+def is_cjk(ch):
+    if not ch:
+        return False
+    o = ord(ch)
+    return 0x2E80 <= o <= 0x9FFF or 0x3000 <= o <= 0x303F or 0xFF00 <= o <= 0xFFEF
+
+
+def join_lines(parts):
+    """把被物理折行的若干行拼回一段。
+
+    parts 为 [(文本, 该行是否以硬换行结尾)]；hard 标记的是**该行本身**，
+    拼接时看前一行的标志决定是否插 <br />。
+    中英文相邻才补空格，中文之间直接相连。
+    """
+    out = ""
+    for idx, (text, hard) in enumerate(parts):
+        if idx == 0:
+            out = text
+            continue
+        prev = out[-1:] if out else ""
+        nxt = text[:1]
+        if parts[idx - 1][1]:
+            out += "<br />" + text
+        elif is_cjk(prev) and is_cjk(nxt):
+            out += text
+        else:
+            out += " " + text
+    return out
 
 
 def split_row(line):
@@ -98,21 +130,31 @@ def md_to_html(md, slug):
             i += 1
             continue
 
-        # 表格
-        if stripped.startswith("|") and i + 1 < n and re.match(r"^\|[\s:|-]+\|$", lines[i + 1].strip()):
-            head = split_row(stripped)
-            i += 2
-            rows = []
-            while i < n and lines[i].strip().startswith("|"):
-                rows.append(split_row(lines[i]))
-                i += 1
+        # 表格（兼容两种写法：带分隔行的标准写法，以及首行即内容的简写）
+        if stripped.startswith("|"):
+            raw = []
+            j = i
+            while j < n and lines[j].strip().startswith("|"):
+                raw.append(lines[j].strip())
+                j += 1
+            has_sep = len(raw) >= 2 and re.fullmatch(r"\|[\s:\-|]+\|", raw[1])
+            if has_sep:
+                head = split_row(raw[0])
+                body = [split_row(x) for x in raw[2:]]
+            else:
+                head = None
+                body = [split_row(x) for x in raw]
             out.append("<table>")
-            out.append("<thead><tr>" + "".join("<th>%s</th>" % inline(c) for c in head) + "</tr></thead>")
+            if head is not None:
+                out.append("<thead><tr>" + "".join(
+                    "<th>%s</th>" % inline(c) for c in head) + "</tr></thead>")
             out.append("<tbody>")
-            for r in rows:
+            for r in body:
                 cells = []
                 for idx, c in enumerate(r):
-                    if c.startswith("**") and c.endswith("**"):
+                    if head is None and idx == 0:
+                        cells.append('<td class="k">%s</td>' % inline(c.strip("*")))
+                    elif c.startswith("**") and c.endswith("**"):
                         cells.append('<td class="k">%s</td>' % inline(c.strip("*")))
                     elif c in ("✅", "✓"):
                         cells.append('<td class="ok">✓</td>')
@@ -120,6 +162,7 @@ def md_to_html(md, slug):
                         cells.append("<td>%s</td>" % inline(c))
                 out.append("<tr>" + "".join(cells) + "</tr>")
             out.append("</tbody></table>")
+            i = j
             continue
 
         # 标题
@@ -181,17 +224,22 @@ def md_to_html(md, slug):
             continue
 
         # 普通段落（吸收后续非空行）
-        buf = [stripped]
-        i += 1
+        buf = []
         while i < n:
-            nxt = lines[i].strip()
-            if (not nxt or nxt.startswith("#") or nxt.startswith(">") or nxt.startswith("|")
-                    or re.match(r"^[-*]\s+", nxt) or re.match(r"^\d+\.\s+", nxt)
-                    or re.fullmatch(r"-{3,}", nxt)):
+            cur = lines[i]
+            cur_r = cur.rstrip()
+            if buf and (not cur_r
+                        or cur_r.startswith("#") or cur_r.startswith(">") or cur_r.startswith("|")
+                        or re.match(r"^[-*]\s+", cur_r) or re.match(r"^\d+\.\s+", cur_r)
+                        or re.fullmatch(r"-{3,}", cur_r)):
                 break
-            buf.append(nxt)
+            hard = (len(cur) - len(cur_r) >= 2) or cur_r.endswith("\\")
+            buf.append((cur_r.rstrip("\\"), hard))
             i += 1
-        out.append("<p>%s</p>" % inline(" ".join(buf)))
+            if not cur_r:
+                break
+        out.append("<p>%s</p>" % inline(join_lines(buf)))
+        continue
 
     return "\n".join(out)
 
@@ -330,6 +378,8 @@ th, td {
   line-height: 1.7; text-indent: 0;
 }
 th { background: #f4ece0; color: #6b4f2a; font-weight: 600; }
+table:not(:has(thead)) td:first-child { width: 1%; white-space: nowrap; }
+table:not(:has(thead)) td:last-child { font-weight: 600; color: #6b4f2a; }
 td.k { background: #faf6ef; color: #6b4f2a; font-weight: 600; white-space: nowrap; }
 td.ok { text-align: center; color: #7a5c33; }
 
